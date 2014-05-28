@@ -70,6 +70,14 @@ namespace gbXMLSerializer
     }
 
     [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
+    public class BeginDate
+    {
+        [XmlText]
+        public string val { get; set; }
+    }
+
+    [Serializable]
     [XmlRootAttribute(ElementName = "gbXML", IsNullable = true, Namespace = "http://www.gbxml.org/schema")]
     public class Building
     {
@@ -293,6 +301,53 @@ namespace gbXMLSerializer
         public string CADModelId { get; set; }
     }
 
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.gbxml.org/schema")]
+    public enum dayTypeEnum
+    {
+        Weekday,
+        Weekend,
+        Holiday,
+        WeekendOrHoliday,
+        HeatingDesignDay,
+        CoolingDesignDay,
+        Sun,
+        Mon,
+        Tue,
+        Wed,
+        Thu,
+        Fri,
+        Sat,
+        All
+    }
+
+    [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
+    public class Day
+    {
+        [XmlAttribute]
+        public dayTypeEnum dayType { get; set; }
+        [XmlAttribute]
+        public string dayScheduleIdRef { get; set; }
+    }
+
+    [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
+    public class DaySchedule
+    {
+        [XmlElement]
+        public string Name { get; set; }
+        [XmlElement]
+        public string Description { get; set; }
+        [XmlElement]
+        public ScheduleValue[] ScheduleValue { get; set; }
+        [XmlAttribute]
+        public string id { get; set; }
+        [XmlAttribute]
+        public scheduleTypeEnum type { get; set; }
+    }
+
     [Serializable]
     [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
     public class Density
@@ -365,6 +420,14 @@ namespace gbXMLSerializer
     {
         IntIR,
         ExtIR,
+    }
+
+    [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
+    public class EndDate
+    {
+        [XmlText]
+        public string val { get; set; }
     }
 
     [Serializable]
@@ -458,6 +521,12 @@ namespace gbXMLSerializer
         public Glaze[] Glazing;
         [XmlElement(IsNullable = false, ElementName = "Gap")]
         public Gap[] Gaps;
+        [XmlElement(IsNullable = false, ElementName = "Schedule")]
+        public Schedule[] Schedule;
+        [XmlElement(IsNullable = false, ElementName = "WeekSchedule")]
+        public WeekSchedule[] WeekSchedule;
+        [XmlElement(IsNullable = false, ElementName = "DaySchedule")]
+        public DaySchedule[] DaySchedule;
         //[XmlElement(IsNullable = false, ElementName = "Layer")]
         //public Layer[] Layers;
         //[XmlElement(IsNullable = false, ElementName = "Material")]
@@ -1024,6 +1093,45 @@ namespace gbXMLSerializer
 
     [Serializable]
     [XmlRootAttribute(ElementName = "gbXML", IsNullable = true, Namespace = "http://www.gbxml.org/schema")]
+    public class Schedule
+    {
+        [XmlAttribute]
+        public string id { get; set; }
+        [XmlAttribute]
+        public scheduleTypeEnum type { get; set; }
+        [XmlAttribute]
+        public string programID { get; set; }
+        [XmlElement]
+        public string Name { get; set; }
+        [XmlElement]
+        public string Description { get; set; }
+        [XmlElement]
+        public YearSchedule[] YearSchedule { get; set; }
+        
+    }
+
+    [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = true, Namespace = "http://www.gbxml.org/schema")]
+    public class ScheduleValue
+    {
+        [XmlText]
+        public double value { get; set; }
+    }
+
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.gbxml.org/schema")]
+    public enum scheduleTypeEnum
+    {
+        Temp,
+        Fraction,
+        OnOff
+        
+    }
+
+    [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = true, Namespace = "http://www.gbxml.org/schema")]
     public class ShadingCoeff
     {
         [XmlAttribute]
@@ -1287,6 +1395,52 @@ namespace gbXMLSerializer
     {
         [XmlText]
         public string val { get; set; }
+    }
+
+    [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
+    public class WeekSchedule
+    {
+        [XmlElement]
+        public string Name { get; set; }
+        [XmlElement]
+        public string Description { get; set; }
+        [XmlElement]
+        public Day[] Day { get; set; }
+        [XmlAttribute]
+        public string id { get; set; }
+        [XmlAttribute]
+        public scheduleTypeEnum type { get; set; }
+
+    }
+
+    [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
+    public class WeekScheduleId
+    {
+        [XmlAttribute]
+        public string weekScheduleIdRef { get; set; }
+        [XmlIgnore]
+        public bool weekIdSpecified { get; set; }
+    }
+
+    [Serializable]
+    [XmlRootAttribute(ElementName = "gbXML", IsNullable = true, Namespace = "http://www.gbxml.org/schema")]
+    public class YearSchedule
+    {
+        [XmlElement]
+        public string Name { get; set; }
+        [XmlElement]
+        public string Description { get; set; }
+        [XmlElement]
+        public BeginDate BeginDate { get; set; }
+        [XmlElement]
+        public EndDate EndDate { get; set; }
+        [XmlElement]
+        public WeekScheduleId WeekScheduleId { get; set; }
+
+        [XmlAttribute]
+        public string id { get; set; }
     }
 
     [Serializable]

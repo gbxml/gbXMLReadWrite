@@ -353,6 +353,11 @@ namespace gbXMLSerializer
             return new SpaceBoundary[size];
         }
 
+        public static PeopleHeatGain[] makePeopleHeatGainAray(int size)
+        {
+            return new PeopleHeatGain[size];
+        }
+
         public static Absorptance[] makeAbsorptanceArray(int size)
         {
             return new Absorptance[size];
@@ -376,6 +381,36 @@ namespace gbXMLSerializer
         public static BuildingStorey[] setLevelsArray(int size)
         {
             return new BuildingStorey[size];
+        }
+
+        public static ScheduleValue[] setScheduleValuesArray(int size)
+        {
+            return new ScheduleValue[size];
+        }
+
+        public static Schedule[] setScheduleArray(int size)
+        {
+            return new Schedule[size];
+        }
+
+        public static WeekSchedule[] setWeekScheduleArray(int size)
+        {
+            return new WeekSchedule[size];
+        }
+
+        public static DaySchedule[] setDayScheduleArray(int size)
+        {
+            return new DaySchedule[size];
+        }
+
+        public static Day[] setDayArray(int size)
+        {
+            return new Day[size];
+        }
+
+        public static YearSchedule[] setYearScheduleArray(int size)
+        {
+            return new YearSchedule[size];
         }
 
         public static Surface[] defSurfaceArray(int size)
@@ -447,6 +482,11 @@ namespace gbXMLSerializer
         public static Glaze[] defGlazeArray(int size)
         {
             return new Glaze[size];
+        }
+
+        public static SolarHeatGainCoeff[] defSolarHeatGainArray(int size)
+        {
+            return new SolarHeatGainCoeff[size];
         }
 
         public static Gap[] defGapArray(int size)
