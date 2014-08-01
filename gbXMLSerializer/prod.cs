@@ -36,8 +36,9 @@ namespace gbXMLSerializer
             //ensure the vector passed into the function is a unit vector
             normalVector = Vector.UnitVector(normalVector);
             //get tilt:  cross product of normal vector and upVector
-            //since parallel and anti parallel vectors will return the same cross product [0,0,0] I need to filter out the antiparalll case
-            if (normalVector.X == upVector.X * -1 && normalVector.Y == upVector.Y * -1 && normalVector.Z == upVector.Z * -1)
+            //dot product equal to -1 is sign of antiparallelism
+            double dot = Vector.DotProductMag(upVector, normalVector);
+            if(dot+1 < .001)
             {
                 calculatedTilt = 180;
                 return calculatedTilt;

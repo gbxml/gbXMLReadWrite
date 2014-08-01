@@ -56,7 +56,7 @@ namespace gbXMLSerializer
 
             //Define the building(s) on the site
             //CHarriman Septempber 19 2013
-            cmp.Buildings[0] = MakeBuilding(2000);
+            cmp.Buildings[0] = MakeBuilding(2000,"bldg-1",buildingTypeEnum.DiningBarLoungeOrLeisure);
 
             //CHarriman September 19 2013
             //define the stories for each building
@@ -144,29 +144,29 @@ namespace gbXMLSerializer
 
 
                 PeopleNumber pn = new PeopleNumber();
-                pn.peopleunits = peopleNumberUnitEnum.NumberOfPeople;
+                pn.unit = peopleNumberUnitEnum.NumberOfPeople;
 
                 string people = gb.FormatDoubleToString(zespace.peoplenum);
                 pn.valuefield = people;
                 zespace.PeopleNumber = pn;
 
                 PeopleHeatGain phg = new PeopleHeatGain();
-                phg.loadunits = peopleHeatGainUnitEnum.BtuPerHourPerson;
-                phg.loadtype = peopleHeatGainTypeEnum.Total;
+                phg.unit = peopleHeatGainUnitEnum.BtuPerHourPerson;
+                phg.heatGainType = peopleHeatGainTypeEnum.Total;
                 string totalpopload = gb.FormatDoubleToString(zespace.totalpeoplegain);
                 phg.value = totalpopload;
                 zespace.PeopleHeatGains[0] = phg;
 
                 PeopleHeatGain shg = new PeopleHeatGain();
-                shg.loadunits = peopleHeatGainUnitEnum.BtuPerHourPerson;
-                shg.loadtype = peopleHeatGainTypeEnum.Sensible;
+                shg.unit = peopleHeatGainUnitEnum.BtuPerHourPerson;
+                shg.heatGainType = peopleHeatGainTypeEnum.Sensible;
                 string senspopload = gb.FormatDoubleToString(zespace.senspeoplegain);
                 shg.value = senspopload;
                 zespace.PeopleHeatGains[1] = shg;
 
                 PeopleHeatGain lhg = new PeopleHeatGain();
-                lhg.loadunits = peopleHeatGainUnitEnum.BtuPerHourPerson;
-                lhg.loadtype = peopleHeatGainTypeEnum.Latent;
+                lhg.unit = peopleHeatGainUnitEnum.BtuPerHourPerson;
+                lhg.heatGainType = peopleHeatGainTypeEnum.Latent;
                 string latpopload = gb.FormatDoubleToString(zespace.latpeoplegain);
                 lhg.value = latpopload;
                 zespace.PeopleHeatGains[2] = lhg;
@@ -276,7 +276,7 @@ namespace gbXMLSerializer
 
                 zespace.peoplenum = zespace.Area / 150;
                 PeopleNumber pn = new PeopleNumber();
-                pn.peopleunits = peopleNumberUnitEnum.NumberOfPeople;
+                pn.unit = peopleNumberUnitEnum.NumberOfPeople;
                 pn.valuefield = (zespace.Area/150).ToString();
                 zespace.PeopleNumber = pn;
 
@@ -284,22 +284,22 @@ namespace gbXMLSerializer
 
                 zespace.totalpeoplegain = 450;
                 PeopleHeatGain tph = new PeopleHeatGain();
-                tph.loadtype = peopleHeatGainTypeEnum.Total;
-                tph.loadunits = peopleHeatGainUnitEnum.BtuPerHourPerson;
+                tph.heatGainType = peopleHeatGainTypeEnum.Total;
+                tph.unit = peopleHeatGainUnitEnum.BtuPerHourPerson;
                 tph.value = string.Format(ci, "{0:0.000000}","450");
                 zespace.PeopleHeatGains[0] = tph;
 
                 zespace.senspeoplegain = 250;
                 PeopleHeatGain sph = new PeopleHeatGain();
-                sph.loadtype = peopleHeatGainTypeEnum.Sensible;
-                sph.loadunits = peopleHeatGainUnitEnum.BtuPerHourPerson;
+                sph.heatGainType = peopleHeatGainTypeEnum.Sensible;
+                sph.unit = peopleHeatGainUnitEnum.BtuPerHourPerson;
                 sph.value = string.Format(ci, "{0:0.000000}","250");
                 zespace.PeopleHeatGains[1] = sph;
 
                 zespace.latpeoplegain = 200;
                 PeopleHeatGain lph = new PeopleHeatGain();
-                lph.loadtype = peopleHeatGainTypeEnum.Latent;
-                lph.loadunits = peopleHeatGainUnitEnum.BtuPerHourPerson;
+                lph.heatGainType = peopleHeatGainTypeEnum.Latent;
+                lph.unit = peopleHeatGainUnitEnum.BtuPerHourPerson;
                 lph.value = string.Format(ci, "{0:0.000000}","200");
                 zespace.PeopleHeatGains[2] = lph;
 
@@ -493,22 +493,28 @@ namespace gbXMLSerializer
         {
             return new Gap[size];
         }
-        public static Building MakeBuilding(double bldarea)
+        public static Building MakeBuilding(double bldarea, string bldgname,buildingTypeEnum bldgType)
         {
             Building zeb = new Building();
             zeb.Area = bldarea;
+            zeb.id = bldgname;
+            zeb.buildingType = bldgType;
             //this has been arbitrarily defined and could be changed
             zeb.bldgStories = new BuildingStorey[1000];
             zeb.Spaces = new Space[10000];
             return zeb;
         }
 
-        public static List<Building> MakeBuildings(List<double> bldareas)
+        public static List<Building> MakeBuildings(List<double> bldareas,List<buildingTypeEnum> types)
         {
             List<Building> blds = new List<Building>();
-            foreach (double area in bldareas)
+            int bldgcount = 1;
+            for (int i=0; i < bldareas.Count(); i++)
             {
-                blds.Add(MakeBuilding(area));
+                string bldgid = "bldg-"+bldgcount;
+                var area = bldareas[i];
+                var type = types[i];
+                blds.Add(MakeBuilding(area,bldgid,type));
             }
             return blds;
         }

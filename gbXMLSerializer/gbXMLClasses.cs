@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using System.Globalization;
+using System.ComponentModel;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 
 namespace gbXMLSerializer
@@ -73,8 +75,9 @@ namespace gbXMLSerializer
     [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
     public class BeginDate
     {
-        [XmlText]
-        public string val { get; set; }
+        [XmlElement(DataType="date")]
+        public DateTime val { get; set; }
+        
     }
 
     [Serializable]
@@ -84,7 +87,7 @@ namespace gbXMLSerializer
         [XmlAttribute]
         public string id { get; set; }
         [XmlAttribute]
-        public string buildingType { get; set; }
+        public buildingTypeEnum buildingType { get; set; }
         public double Area { get; set; }
         [XmlElement("BuildingStorey")]
         public BuildingStorey[] bldgStories { get; set; }
@@ -103,6 +106,47 @@ namespace gbXMLSerializer
         [XmlElement("PlanarGeometry")]
         public PlanarGeometry PlanarGeo { get; set; }
     }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.gbxml.org/schema")]
+    public enum buildingTypeEnum
+    {
+        AutomotiveFacility,
+        ConventionCenter,
+        Courthouse,
+        DataCenter,
+        DiningBarLoungeOrLeisure,
+        DiningCafeteriaFastFood,
+        DiningFamily,
+        Dormitory,
+        ExerciseCenter,
+        FireStation,
+        Gymnasium,
+        HospitalOrHealthcare,
+        Hotel,
+        Library,
+        Manufacturing,
+        Motel,
+        MotionPictureTheatre,
+        MultiFamily,
+        Museum,
+        Office,
+        ParkingGarage,
+        Penitentiary,
+        PerformingArtsTheater,
+        PoliceStation,
+        PostOffice,
+        ReligiousBuilding,
+        Retail,
+        SchoolOrUniversity,
+        SingleFamily,
+        SportsArena,
+        TownHall,
+        Transportation,
+        Unknown
+    }
+
 
     [Serializable]
     [XmlRootAttribute(ElementName = "gbXML", IsNullable = true, Namespace = "http://www.gbxml.org/schema")]
@@ -427,7 +471,8 @@ namespace gbXMLSerializer
     public class EndDate
     {
         [XmlText]
-        public string val { get; set; }
+        public DateTime val { get; set; }
+        
     }
 
     [Serializable]
@@ -471,12 +516,27 @@ namespace gbXMLSerializer
         public Emittance[] Emittance { get; set; }
     }
 
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.gbxml.org/schema")]
+    public enum gasTypeEnum
+    {
+        Air,
+        Argon,
+        Krypton,
+        CO2,
+        SF6,
+        Custom
+    }
+
     [Serializable]
     [XmlRootAttribute(ElementName = "gbXML", IsNullable = false, Namespace = "http://www.gbxml.org/schema")]
     public class Gap
     {
         [XmlAttribute]
         public string id { get; set; }
+        [XmlAttribute]
+        public gasTypeEnum gas { get; set; }
         [XmlElement]
         public string Name { get; set; }
         [XmlElement]
@@ -503,9 +563,9 @@ namespace gbXMLSerializer
         [XmlAttribute]
         public volumeUnitEnum volumeUnit { get; set; }
         [XmlAttribute]
+        public versionEnum version { get; set; }
+        [XmlAttribute]
         public string useSIUnitsForResults { get; set; }
-
-
 
         [XmlElement(IsNullable = false)]
         public Campus Campus;
@@ -725,6 +785,7 @@ namespace gbXMLSerializer
         CubicInches,
     }
 
+
     [Serializable]
     [XmlRootAttribute(ElementName = "gbXML", IsNullable = true, Namespace = "http://www.gbxml.org/schema")]
     public class LightPowerPerArea
@@ -743,6 +804,8 @@ namespace gbXMLSerializer
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public double CADModelAzimuth { get; set; }
+        public string ZipcodeOrPostalCode { get; set; }
+
     }
 
     [Serializable]
@@ -770,7 +833,7 @@ namespace gbXMLSerializer
         public Permeance Permeance  { get; set; }
         [XmlElement(IsNullable=false)]
         public Porosity Porosity { get; set; }
-        [XmlElement(IsNullable=false,ElementName="R-Value")]
+        [XmlElement(IsNullable=false,ElementName="R-value")]
         public RValue RValue { get; set; }
         [XmlElement(IsNullable=false)]
         public RecycledContent RecycledContent { get; set; }
@@ -858,9 +921,9 @@ namespace gbXMLSerializer
     public class PeopleHeatGain
     {
         [XmlAttribute]
-        public peopleHeatGainUnitEnum loadunits { get; set; }
+        public peopleHeatGainUnitEnum unit { get; set; }
         [XmlAttribute]
-        public peopleHeatGainTypeEnum loadtype { get; set; }
+        public peopleHeatGainTypeEnum heatGainType { get; set; }
         public string programidfield { get; set; }
         [XmlText]
         public string value { get; set; }
@@ -890,7 +953,7 @@ namespace gbXMLSerializer
     public class PeopleNumber
     {
         [XmlAttribute]
-        public peopleNumberUnitEnum peopleunits { get; set; }
+        public peopleNumberUnitEnum unit { get; set; }
         public string progidfield { get; set; }
         [XmlText]
         public string valuefield { get; set; }
@@ -1389,6 +1452,29 @@ namespace gbXMLSerializer
         milliGramsPerCubicMeter,
     }
 
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("xsd", "4.0.30319.1")]
+    [System.SerializableAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.gbxml.org/schema")]
+    public enum versionEnum
+    {
+        [Description("0.35")]
+        OhThreeFive=0,
+        [Description("0.36")]
+        OhThreeSix=1,
+        [Description("0.37")]
+        OhThreeSeven = 2,
+        [Description("5.00")]
+        FiveOhOh = 3,
+        [Description("5.01")]
+        FiveOhOne = 4,
+        [Description("5.10")]
+        FiveOneOh = 5,
+        [Description("5.11")]
+        FiveOneOne= 6,
+        [Description("5.12")]
+        FiveOneTwo = 7,
+    }
+
     [Serializable]
     [XmlRootAttribute(ElementName = "gbXML", IsNullable = true, Namespace = "http://www.gbxml.org/schema")]
     public class Volume
@@ -1432,10 +1518,10 @@ namespace gbXMLSerializer
         public string Name { get; set; }
         [XmlElement]
         public string Description { get; set; }
-        [XmlElement]
-        public BeginDate BeginDate { get; set; }
-        [XmlElement]
-        public EndDate EndDate { get; set; }
+        [XmlElement(DataType="date")]
+        public DateTime BeginDate { get; set; }
+        [XmlElement(DataType="date")]
+        public DateTime EndDate { get; set; }
         [XmlElement]
         public WeekScheduleId WeekScheduleId { get; set; }
 
